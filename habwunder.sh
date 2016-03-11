@@ -74,10 +74,11 @@ if [ "$answer2" == "y" ] || [ "$answer2" == "Y" ]; then
 	printf "field2=$field2\n" >> habwundercron.sh
 	printf "f1=\`curl -s http://$ip_addy:$port/rest/items/$field1/state | cut -c 1-5\`\n" >> habwundercron.sh
 	printf "f2=\`curl -s http://$ip_addy:$port/rest/items/$field2/state | cut -c 1-5\`\n" >> habwundercron.sh
-	printf "curl -k --data \"ID=\$station_id&PASSWORD=\$password&dateutc=now&tempf=\$f1&humidity=\$f2&action=updateraw\" http://weatherstation.wunderground.com/weatherstation/updateweatherstation.php?" >> habwundercron.sh
+	printf "d=\`date\`\n" >> habwundercron.sh
+	printf "printf \"%%s = \" \"\$d\"; curl -k --data \"ID=\$station_id&PASSWORD=\$password&dateutc=now&tempf=\$f1&humidity=\$f2&action=updateraw\" http://weatherstation.wunderground.com/weatherstation/updateweatherstation.php?" >> habwundercron.sh
 fi
-
-curl -k --data "ID=$station_id&PASSWORD=$password&dateutc=now&tempf=$f1&humidity=$f2&action=updateraw" http://weatherstation.wunderground.com/weatherstation/updateweatherstation.php?
+d=`date`
+printf "%s = " "$d"; curl -k --data "ID=$station_id&PASSWORD=$password&dateutc=now&tempf=$f1&humidity=$f2&action=updateraw" http://weatherstation.wunderground.com/weatherstation/updateweatherstation.php?
 echo ""
 echo "finished!"
 echo ""
